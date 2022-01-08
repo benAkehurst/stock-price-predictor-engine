@@ -56,19 +56,13 @@ app.get(`/api/v1/predict/:stockSymbol`, async (req, res) => {
         timeElapsed: `${(endTime - startTime) / 1000} seconds`,
       });
     } else {
-      const endTime = new Date().getTime();
       res.status(500).json({
         message: 'Prediction failed',
-        predictionData: null,
-        timeElapsed: `${(endTime - startTime) / 1000} seconds`,
       });
     }
   } catch (error) {
-    const endTime = new Date().getTime();
     res.status(500).json({
       message: 'General error',
-      predictionData: null,
-      timeElapsed: `${(endTime - startTime) / 1000} seconds`,
     });
   }
 });
