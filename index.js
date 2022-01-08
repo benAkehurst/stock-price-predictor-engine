@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const expressPinoLogger = require('express-pino-logger');
 const logger = require('./services/loggerService');
-const timeout = require('connect-timeout');
 
 const { fetchRawData } = require('./helpers/data-fetcher');
 const { dataConverter } = require('./helpers/converter');
@@ -14,12 +13,6 @@ const { makePrediction } = require('./helpers/predictor');
 // Init Express
 const app = express();
 require('dotenv').config();
-app.use(timeout('59s'));
-app.use(haltOnTimedout);
-
-function haltOnTimedout(req, res, next) {
-  if (!req.timedout) next();
-}
 
 // Server Config
 const loggerMiddleware = expressPinoLogger({
