@@ -2,6 +2,7 @@
 const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser');
+const timeout = require('connect-timeout');
 const cors = require('cors');
 const expressPinoLogger = require('express-pino-logger');
 const logger = require('./services/loggerService');
@@ -19,6 +20,7 @@ const loggerMiddleware = expressPinoLogger({
   logger: logger,
   autoLogging: true,
 });
+app.use(timeout('59s'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(loggerMiddleware);
