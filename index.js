@@ -21,7 +21,7 @@ const loggerMiddleware = expressPinoLogger({
 });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(loggerMiddleware);
+// app.use(loggerMiddleware);
 
 // Cors Controls
 app.use((req, res, next) => {
@@ -39,6 +39,9 @@ app.use((req, res, next) => {
 app.use(cors());
 
 // Routes Definitions
+app.get('/', (req, res) => {
+  res.send('GCP App Engine!');
+});
 app.get(`/api/v1/predict/:stockSymbol`, async (req, res) => {
   logger.info('predict route is accessed');
   const startTime = new Date().getTime();
@@ -65,6 +68,12 @@ app.get(`/api/v1/predict/:stockSymbol`, async (req, res) => {
       message: 'General error',
     });
   }
+});
+app.get(`/api/v1/test`, async (req, res) => {
+  logger.info('test route is accessed');
+  res.status(200).json({
+    message: 'Success',
+  });
 });
 
 // 404 Handling
