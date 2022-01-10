@@ -1,4 +1,4 @@
-const brain = require('brain.js');
+const brain = require("brain.js");
 
 exports.makePrediction = async (data) => {
   // find lowest close in whole data set and set as normalizing number
@@ -71,6 +71,22 @@ exports.makePrediction = async (data) => {
       high: step.high * lowestClose.close,
       low: step.low * lowestClose.close,
       close: step.low * lowestClose.close,
+    };
+  }
+};
+
+exports.predictionTrend = async (data) => {
+  const open = data.open;
+  const close = data.close;
+  if (open > close) {
+    return {
+      trend: "down",
+      percentage: (open - close) / open,
+    };
+  } else if (open < close) {
+    return {
+      trend: "up",
+      percentage: (close - open) / open,
     };
   }
 };
