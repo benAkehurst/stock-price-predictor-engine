@@ -48,7 +48,8 @@ app.get(`/api/v1/predict/:stockSymbol`, async (req, res) => {
       res.status(200).json({
         message: 'Prediction made successfully!',
         predictionData: prediction[0],
-        timeElapsed: `${(endTime - startTime) / 1000} seconds`,
+        predictionTimeTaken: (endTime - startTime) / 1000,
+        predictionMadeOnDate: new Date().toISOString(),
       });
     } else {
       res.status(500).json({
