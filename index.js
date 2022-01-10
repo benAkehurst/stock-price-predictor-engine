@@ -3,8 +3,6 @@ const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const expressPinoLogger = require('express-pino-logger');
-const logger = require('./services/loggerService');
 
 const { fetchRawData } = require('./helpers/data-fetcher');
 const { dataConverter } = require('./helpers/converter');
@@ -15,13 +13,8 @@ const app = express();
 require('dotenv').config();
 
 // Server Config
-const loggerMiddleware = expressPinoLogger({
-  logger: logger,
-  autoLogging: true,
-});
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.use(loggerMiddleware);
 
 // Cors Controls
 app.use((req, res, next) => {
@@ -43,7 +36,6 @@ app.get('/', (req, res) => {
   res.send('GCP App Engine!');
 });
 app.get(`/api/v1/predict/:stockSymbol`, async (req, res) => {
-  logger.info('predict route is accessed');
   const startTime = new Date().getTime();
   const stockSymbol = req.params.stockSymbol;
   const rawData = await fetchRawData(stockSymbol);
@@ -70,7 +62,6 @@ app.get(`/api/v1/predict/:stockSymbol`, async (req, res) => {
   }
 });
 app.get(`/api/v1/test`, async (req, res) => {
-  logger.info('test route is accessed');
   res.status(200).json({
     message: 'Success',
   });
